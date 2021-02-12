@@ -31,12 +31,16 @@ create table if not exists APPLIES
 
     CONSTRAINT `fk_sid_students`
     FOREIGN KEY (`sid`)
-    REFERENCES `ApplyingToCollege`.`STUDENTS`(`id`),
+    REFERENCES `ApplyingToCollege`.`STUDENTS`(`id`)
+    on update no action
+    on delete no action,
 
 
     CONSTRAINT `fk_college_colleges`
     FOREIGN KEY (`college`)
     REFERENCES `ApplyingToCollege`.`COLLEGES` (`name`)
+    on update no action
+    on delete no action
 
 ) engine=InnoDB;
 
