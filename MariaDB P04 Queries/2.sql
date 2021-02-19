@@ -17,6 +17,7 @@ where dept_num=20;
 #Right outer join
 select e.surname, O.name from OCCUPATIONS as O
 right outer join EMPLOYEES e on e.occu_code = O.code
+where dept_num=20;
 
 
 

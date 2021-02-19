@@ -11,4 +11,4 @@ inner join EMPLOYEES E on EMPLOYEES.manager=E.num;
 select EMPLOYEES.num, EMPLOYEES.name,EMPLOYEES.surname, concat(E.name,' ',E.surname) as manager, EMPLOYEES.start_date,EMPLOYEES.salary,EMPLOYEES.commission,D.name,O.name from EMPLOYEES
 left outer join DEPARTMENTS D on EMPLOYEES.dept_num = D.num
 left outer join OCCUPATIONS O on EMPLOYEES.occu_code = O.code
-left outer join EMPLOYEES E on EMPLOYEES.manager=E.num
+left outer join EMPLOYEES E on EMPLOYEES.manager=E.num;
