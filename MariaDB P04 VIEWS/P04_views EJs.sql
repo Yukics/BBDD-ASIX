@@ -71,6 +71,9 @@ select * from V_EMPLOYEES_FULL;
 
 #(6)
 #Data is changed if you update it from a view
+update V_EMPLOYEES_FULL
+set name='Nosergi'
+where num=9999;
 
 #(7)
 #When i try to create a new register from a view it is impossible, i think it is all about how views are done.
