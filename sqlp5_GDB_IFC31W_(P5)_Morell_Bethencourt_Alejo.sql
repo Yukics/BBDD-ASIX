@@ -1,0 +1,96 @@
+-- Creating Database
+CREATE SCHEMA IF NOT EXISTS `TELEFONIA` DEFAULT CHARACTER SET utf8 ;
+USE `TELEFONIA` ;
+
+-- Adding Tables
+CREATE TABLE IF NOT EXISTS `TELEFONIA`.`USERS` (
+  `NIF` VARCHAR(9) NOT NULL,
+  `Name` VARCHAR(20) NOT NULL,
+  `Last_name1` VARCHAR(20) NOT NULL,
+  `Last_name2` VARCHAR(20) NULL,
+  `Fec_nacim` DATE NULL check (Fec_nacim > "1900-01-01"),
+  PRIMARY KEY (`NIF`))
+ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS `TELEFONIA`.`COMPANIES` (
+  `ID_Compania` INT NOT NULL check (ID_Compania > 0 and ID_Compania < 9999),
+  `Name` VARCHAR(20) NOT NULL,
+  `Anio_Fundacion` INT NOT NULL check (Anio_Fundacion > 1900 and Anio_Fundacion < 2010),
+  PRIMARY KEY (`ID_Compania`))
+ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS `TELEFONIA`.`PHONES` (
+  `Numero` VARCHAR(13) NOT NULL,
+  `ID_Compania` INT NOT NULL check (ID_Compania > 0 and ID_Compania < 9999),
+  `NIF_Usuario` VARCHAR(9) NOT NULL,
+  PRIMARY KEY (`Numero`),
+  INDEX `fk_PHONES_COMPANIES_idx` (`ID_Compania` ASC) VISIBLE,
+  INDEX `fk_PHONES_USERS1_idx` (`NIF_Usuario` ASC) VISIBLE,
+  CONSTRAINT `fk_PHONES_COMPANIES`
+    FOREIGN KEY (`ID_Compania`)
+    REFERENCES `TELEFONIA`.`COMPANIES` (`ID_Compania`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_PHONES_USERS1`
+    FOREIGN KEY (`NIF_Usuario`)
+    REFERENCES `TELEFONIA`.`USERS` (`NIF`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS `TELEFONIA`.`CALLS` (
+  `Num_Llamante` VARCHAR(13) NOT NULL,
+  `Num_Llamado` VARCHAR(13) NOT NULL,
+  `Date` DATETIME NOT NULL,
+  `Time` INT NOT NULL check (`Time` > 0 and `Time` < 9999999),
+  INDEX `fk_CALLS_PHONES1_idx` (`Num_Llamante` ASC) VISIBLE,
+  INDEX `fk_CALLS_PHONES2_idx` (`Num_Llamado` ASC) VISIBLE,
+  PRIMARY KEY (`Num_Llamante`, `Num_Llamado`),
+  CONSTRAINT `fk_CALLS_PHONES1`
+    FOREIGN KEY (`Num_Llamante`)
+    REFERENCES `TELEFONIA`.`PHONES` (`Numero`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_CALLS_PHONES2`
+    FOREIGN KEY (`Num_Llamado`)
+    REFERENCES `TELEFONIA`.`PHONES` (`Numero`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT chk_REGISTRATION_DATE CHECK (`Date` >  STR_TO_DATE('1990-01-01', 'yyyy-mm-dd'))
+    )
+ENGINE = InnoDB;
+
+-- Mofify column attribute
+ALTER TABLE `PHONES` MODIFY `Numero` VARCHAR(11) NOT NULL;
+
+-- Add new column behind Last_name2
+ALTER TABLE `USERS` ADD `ADDRESS` varchar(100) AFTER Last_name2;
+
+-- Rename table
+ALTER TABLE `USERS` RENAME TO `CUSTOMERS`;
+
+-- Rename columns
+ALTER TABLE `CUSTOMERS` RENAME COLUMN `Last_name1` TO `AP1`;
+ALTER TABLE `CUSTOMERS` RENAME COLUMN `Last_name2` TO `AP2`;
+
+-- Rename again table
+ALTER TABLE `CUSTOMERS` RENAME TO `USERS`;
+
+-- Rename again columns
+ALTER TABLE `USERS` RENAME COLUMN `AP1` TO `Last_name1`;
+ALTER TABLE `USERS` RENAME COLUMN `AP2` TO `Last_name2`;
+
+-- Add constraint to check num_llamante and num_llamado are different
+ALTER TABLE `CALLS` ADD CONSTRAINT check_phones_are_different CHECK (`Num_Llamante` <> `Num_Llamado`);
+
+-- Remove column 
+ALTER TABLE `USERS` DROP COLUMN `ADDRESS`;
+
+-- Remove foreign keys constraints
+ALTER TABLE `PHONES` DROP FOREIGN KEY `fk_PHONES_COMPANIES`;
+ALTER TABLE `PHONES` DROP FOREIGN KEY `fk_PHONES_USERS1`;
+ALTER TABLE `CALLS` DROP FOREIGN KEY `fk_CALLS_PHONES1`;
+ALTER TABLE `CALLS` DROP FOREIGN KEY `fk_CALLS_PHONES2`;
+
+-- Remove database
+DROP DATABASE TELEFONIA;
