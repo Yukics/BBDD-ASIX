@@ -274,7 +274,7 @@ CREATE TABLE `Playlist` (
 
 LOCK TABLES `Playlist` WRITE;
 /*!40000 ALTER TABLE `Playlist` DISABLE KEYS */;
-INSERT INTO `Playlist` VALUES (1,'Music'),(2,'Movies'),(3,'TV Shows'),(4,'Audiobooks'),(5,'90’s Music'),(6,'Audiobooks'),(7,'Movies'),(8,'Music'),(9,'Music Videos'),(10,'TV Shows'),(11,'Brazilian Music'),(12,'Classical'),(13,'Classical 101 - Deep Cuts'),(14,'Classical 101 - Next Steps'),(15,'Classical 101 - The Basics'),(16,'Grunge'),(17,'Heavy Metal Classic'),(18,'On-The-Go 1');
+INSERT INTO `Playlist` VALUES (1,'Music'),(2,'Movies'),(3,'TV Shows'),(4,'Audiobooks'),(5,'90’s Music'),(6,'Audiobooks'),(7,'Movies'),(8,'Music'),(9,'Music Videos'),(10,'TV Shows'),(11,'Brazilian Music'),(12,'Classical'),(13,'Classical 101 - Deep Cuts'),(14,'Classical 101 - Next Steps'),(15,'Classical 101 - The Basics'),(16,'Grunge'),(17,'Heavy Metal Classic'),(18,'On-The-Go 1'),(90,'Jotas');
 /*!40000 ALTER TABLE `Playlist` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -351,4 +351,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-03-24 18:52:50
+-- Dump completed on 2021-03-24 18:55:00
